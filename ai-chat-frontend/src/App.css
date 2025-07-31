@@ -1,0 +1,448 @@
+@import "tailwindcss";
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Root styles - Full viewport on all devices */
+#root {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #111827;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Prevent mobile viewport issues */
+@supports (-webkit-touch-callout: none) {
+  #root {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Ensure proper mobile viewport */
+@viewport {
+  width: device-width;
+  zoom: 1.0;
+}
+
+/* Chat container - Full screen on all devices */
+.chat-container {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #1F2937;
+  position: relative;
+  overflow: hidden;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .chat-container {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Custom scrollbar - Improved for all devices */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #4B5563 #1F2937;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+@media (min-width: 768px) {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #1F2937;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #4B5563;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+/* Header styles - Responsive heights */
+.chat-header {
+  flex-shrink: 0;
+  height: 60px;
+  background: #374151;
+  border-bottom: 1px solid #4B5563;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+  .chat-header {
+    height: 70px;
+    padding: 0 24px;
+  }
+}
+
+/* Chat content area - Dynamic height */
+.chat-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #111827;
+  position: relative;
+  min-height: 0; /* Important for flex child */
+}
+
+/* Input area - Fixed at bottom */
+.chat-input {
+  flex-shrink: 0;
+  background: #374151;
+  border-top: 1px solid #4B5563;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
+  .chat-input {
+    padding: 16px 24px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Message animations - Optimized for all devices */
+.message-enter {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: messageSlideIn 0.25s ease-out forwards;
+}
+
+@keyframes messageSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typing indicator - Responsive dots */
+.typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.typing-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #9CA3AF;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .typing-dots .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.typing-dots .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-dots .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.typing-dots .dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Voice input pulse - Responsive size */
+.voice-pulse {
+  animation: voicePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+@media (min-width: 768px) {
+  @keyframes voicePulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+  }
+}
+
+/* Sound wave animation - All devices */
+.sound-wave {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+@media (min-width: 768px) {
+  .sound-wave {
+    gap: 2px;
+  }
+}
+
+.sound-wave .bar {
+  width: 2px;
+  background: #10B981;
+  border-radius: 1px;
+  animation: soundWave 1.2s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .sound-wave .bar {
+    width: 3px;
+  }
+}
+
+.sound-wave .bar:nth-child(1) {
+  height: 10px;
+  animation-delay: 0s;
+}
+
+.sound-wave .bar:nth-child(2) {
+  height: 16px;
+  animation-delay: -0.1s;
+}
+
+.sound-wave .bar:nth-child(3) {
+  height: 12px;
+  animation-delay: -0.2s;
+}
+
+.sound-wave .bar:nth-child(4) {
+  height: 8px;
+  animation-delay: -0.3s;
+}
+
+@media (min-width: 768px) {
+  .sound-wave .bar:nth-child(1) {
+    height: 14px;
+  }
+  .sound-wave .bar:nth-child(2) {
+    height: 20px;
+  }
+  .sound-wave .bar:nth-child(3) {
+    height: 16px;
+  }
+  .sound-wave .bar:nth-child(4) {
+    height: 12px;
+  }
+}
+
+@keyframes soundWave {
+  0%, 100% {
+    transform: scaleY(0.5);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+  /* Prevent zoom on input focus */
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  textarea, 
+  select {
+    font-size: 16px !important;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
+  
+  /* Better touch targets */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Optimize scrolling performance */
+  .chat-content {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chat-container {
+    border-radius: 0;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  .chat-container {
+    border-radius: 0;
+  }
+}
+
+/* Connection status pulse */
+.connection-pulse {
+  animation: connectionPulse 2s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Text selection styling */
+::selection {
+  background-color: #3B82F6;
+  color: white;
+}
+
+/* Focus styles for accessibility */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3B82F6;
+}
+
+/* Loading spinner - All devices */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #374151;
+  border-top: 2px solid #3B82F6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Safe area insets for all devices */
+@supports (padding: max(0px)) {
+  .mobile-safe-area {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-dpi-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Landscape mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+  .chat-header {
+    height: 50px;
+  }
+  
+  .chat-input {
+    padding: 8px 16px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+  .chat-header {
+    padding: 0 12px;
+  }
+  
+  .chat-input {
+    padding: 10px 12px;
+  }
+}
+
+/* Large desktop screens */
+@media (min-width: 1920px) {
+  .chat-container {
+    max-width: none;
+  }
+}
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-appearance: none) {
+  .ios-fix {
+    height: -webkit-fill-available;
+  }
+}
